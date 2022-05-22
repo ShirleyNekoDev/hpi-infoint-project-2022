@@ -11,7 +11,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.9.12"
 async_generator = "1.10"
 attrs = "21.4.0"
 Automat = "20.2.0"
