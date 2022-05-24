@@ -1,61 +1,76 @@
 import logging
-from time import sleep
-
 import csv
 import requests
-from datetime import datetime
+import pytz
+from time import sleep
+from locale import atof, setlocale, LC_NUMERIC
+from datetime import datetime, date, timedelta, timezone
 
-from build.gen.bakdata.stocks.stocks_pb2.py import Stocks
+from build.gen.bakdata.trade.v1.trade_pb2 import Trade
 from ffb_producer import FfbProducer
 
+log = logging.getLogger(__name__)
+
+
+def daterange(start_date: date, end_date: date):
+    delta = timedelta(days=1)
+    while start_date <= end_date:
+        yield start_date
+        start_date += delta
+
+
 class FfbExtractor:
-    def __init__(self, start_date: str, end_date: str, day: str):		#Choose between time range or particular day
-        self.start_date = self.str_to_date_object(start_date)
-        self.end_date = self.str_to_date_object(end_date)
-        self.one_day = self.str_to_date_object(day)
-        #self.producer = FfbProducer()
+    def __init__(self, start_date: date, end_date: date):
+        self.start_date = start_date
+        self.end_date = end_date
+        setlocale(LC_NUMERIC, "de_DE")
+        self.producer = FfbProducer()
 
     def extract(self):
-        delta = datetime.timedelta(days=1)
-        run_date = self.start_date
-        while self.start_date <= self.end_date:       #It is neccessary to skip non-weekdays, there is no error, but empty files downloaded
-            try:
-                if (is_weekday(run_date)):
-                    decoded_content = self.send_request(run_date)
-                    cr = csv.reader(decoded_content.splitlines(), delimiter=';')
-                    my_lists = list(cr)
-                    
-                    stocks = Stocks()
+        log.info(f"running stock data extraction from FFB for dates {self.start_date} to {self.end_date}")
+        # It is neccessary to skip non-weekdays, there is no error, but empty files downloaded
+        for date in daterange(self.start_date, self.end_date):
+            if self.is_weekday(date):
+                try:
+                    log.info(f"requesting csv for date {date}")
+                    csv_data = self.send_request(date)
+                    log.info(f"parsing csv for date {date}")
+                    csv_reader = csv.DictReader(csv_data.splitlines(), delimiter=";")
 
-                    for list in my_lists:
-                        print(list[0])
-                        #stocks.time = list[0]
-                        #stocks.isin = list[1]
-                        #stocks.prodcut_type = list[2]
-                        #stocks.issuer = list[3]
-                        #stocks.underlying = list[4]
-                        #stocks.price = list[5]
-                        #stocks.volume = list[6]
-                        print(list[6])
-                        run_date += delta
-                else:
-                        run_date += delta
-            except Exception as ex: 
-                continue
-        exit(0)
+                    i = 0
+                    for trade in csv_reader:
+                        proto_trade = self.parse_trade(trade)
+                        self.producer.produce_to_topic(proto_trade)
+                        i += 1
+                    log.info(f"written {i} trade entries for date {date} to Kafka")
+                except Exception as ex:
+                    log.warn(f"extraction failed for date {date}", exc_info=True)
+                    continue
+            else:
+                log.info(f"skipping date {date}, because it is a weekend day")
 
-    def send_request(self, one_day):
-        url = f"https://api.boerse-frankfurt.de/v1/data/derivatives_trade_history/day/csv?day={one_day}&language=de"
+    def send_request(self, day):
+        url = f"https://api.boerse-frankfurt.de/v1/data/derivatives_trade_history/day/csv?day={day}&language=de"
         # For graceful crawling! Remove this at your own risk!
-        sleep(0.5)
-        return requests.get(url=url).content.decode('utf-8')
-        
-    def is_weekday(self, date: datetime.date) -> boolean:
-        if d.weekday() > 4:
-	        return False
-        else:
-	        return True
+        sleep(5)
+        return requests.get(url=url).content.decode("utf-8-sig")
 
-    def str_to_date_object(self, date: str) -> datetime.date:
-        d = datetime.strptime(date, '%Y-%m-%d').date()
-        return d
+    def is_weekday(self, date: datetime.date) -> bool:
+        if date.weekday() > 4:
+            return False
+        else:
+            return True
+
+    def parse_trade(self, trade) -> Trade:
+        timezone = pytz.timezone("Europe/Berlin")
+        time = datetime.strptime(trade["TIME"], "%d.%m.%Y %H:%M:%S")
+
+        proto_trade = Trade()
+        proto_trade.time = timezone.localize(time).isoformat()
+        proto_trade.isin = trade["ISIN"]
+        proto_trade.product_type = trade["PRODUCT TYPE"]
+        proto_trade.issuer = trade["ISSUER"]
+        proto_trade.underlying = trade["UNDERLYING"]
+        proto_trade.price = atof(trade["PRICE"])
+        proto_trade.volume = int(trade["VOLUME"])
+        return proto_trade
