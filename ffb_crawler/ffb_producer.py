@@ -5,8 +5,7 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.protobuf import ProtobufSerializer
 from confluent_kafka.serialization import StringSerializer
 
-from build.gen.bakdata.stocks import stocks_pb2
-from build.gen.bakdata.stocks.stocks_pb2 import Stocks
+from build.gen.bakdata.trade.v1.trade_pb2 import Trade
 from ffb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, TOPIC
 
 log = logging.getLogger(__name__)
@@ -17,9 +16,7 @@ class FfbProducer:
         schema_registry_conf = {"url": SCHEMA_REGISTRY_URL}
         schema_registry_client = SchemaRegistryClient(schema_registry_conf)
 
-        protobuf_serializer = ProtobufSerializer(
-            corporate_pb2.Corporate, schema_registry_client, {"use.deprecated.format": True}
-        )
+        protobuf_serializer = ProtobufSerializer(Trade, schema_registry_client, {"use.deprecated.format": True})
 
         producer_conf = {
             "bootstrap.servers": BOOTSTRAP_SERVER,
@@ -29,9 +26,9 @@ class FfbProducer:
 
         self.producer = SerializingProducer(producer_conf)
 
-    def produce_to_topic(self, stocks: Stocks):
+    def produce_to_topic(self, trade: Trade):
         self.producer.produce(
-            topic=TOPIC, partition=-1, key=str(stocks.isin), value=stocks, on_delivery=self.delivery_report
+            topic=TOPIC, partition=-1, key=str(trade.isin), value=trade, on_delivery=self.delivery_report
         )
 
         # It is a naive approach to flush after each produce this can be optimised

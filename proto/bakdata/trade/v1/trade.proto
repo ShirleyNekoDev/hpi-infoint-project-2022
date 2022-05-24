@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package bakdata.stocks;
+package bakdata.trade.v1;
 
-message Stocks {
+message Trade {
 	string time = 1;
 	string isin = 2;
-	string prodcut_type = 3;
+	string product_type = 3;
 	string issuer = 4;
 	string underlying = 5;
 	float price = 6;
