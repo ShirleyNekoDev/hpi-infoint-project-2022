@@ -1,0 +1,1302 @@
+[
+    {
+        "partitionID": 0,
+        "offset": 5302,
+        "timestamp": 1653586345101,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000GK17PC9",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:39+02:00",
+                "isin": "DE000GK17PC9",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "Goldman Sachs Bank Europe SE",
+                "underlying": "DAX Performance",
+                "price": 0.88,
+                "volume": 1000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5303,
+        "timestamp": 1653586345117,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000PD6DND5",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:33+02:00",
+                "isin": "DE000PD6DND5",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "BNP Paribas Emissions- und Handelsges.",
+                "underlying": "Dow Jones Industrial Average Excess Return",
+                "price": 3.64,
+                "volume": 2000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5304,
+        "timestamp": 1653586345132,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SD5HSH5",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:31+02:00",
+                "isin": "DE000SD5HSH5",
+                "productType": "Optionsschein Put",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "DAX Performance",
+                "price": 3.98,
+                "volume": 3000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5305,
+        "timestamp": 1653586345148,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SF1BC18",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:28+02:00",
+                "isin": "DE000SF1BC18",
+                "productType": "Optionsschein Put",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Ford Motor Company",
+                "price": 4.02,
+                "volume": 2000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5306,
+        "timestamp": 1653586345164,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000PD2TPH6",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:24+02:00",
+                "isin": "DE000PD2TPH6",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "BNP Paribas Emissions- und Handelsges.",
+                "underlying": "DAX Performance",
+                "price": 11.27,
+                "volume": 1500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5307,
+        "timestamp": 1653586345179,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SN1A2X6",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:18+02:00",
+                "isin": "DE000SN1A2X6",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "NASDAQ 100",
+                "price": 3.41,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5308,
+        "timestamp": 1653586345196,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HG2ZZ21",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:17+02:00",
+                "isin": "DE000HG2ZZ21",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "HSBC Trinkaus & Burkhardt GmbH",
+                "underlying": "Gold",
+                "price": 2.35,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5309,
+        "timestamp": 1653586345211,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SH7FQT0",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:11+02:00",
+                "isin": "DE000SH7FQT0",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Snowflake Inc",
+                "price": 2.53,
+                "volume": 150
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5310,
+        "timestamp": 1653586345226,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000PF590Q3",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:06+02:00",
+                "isin": "DE000PF590Q3",
+                "productType": "Optionsschein Put",
+                "issuer": "BNP Paribas Emissions- und Handelsges.",
+                "underlying": "DAX Performance",
+                "price": 2.48,
+                "volume": 5000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5311,
+        "timestamp": 1653586345241,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VV2P2U1",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:03+02:00",
+                "isin": "DE000VV2P2U1",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "Apple Inc.",
+                "price": 0.59,
+                "volume": 3200
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5312,
+        "timestamp": 1653586345256,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VV2E1T8",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:03+02:00",
+                "isin": "DE000VV2E1T8",
+                "productType": "Optionsschein Put",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "NASDAQ 100",
+                "price": 0.49,
+                "volume": 5000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5313,
+        "timestamp": 1653586345272,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KE35X46",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:03+02:00",
+                "isin": "DE000KE35X46",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "McDonald's",
+                "price": 5.89,
+                "volume": 2000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5314,
+        "timestamp": 1653586345288,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VV11SY6",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:01:02+02:00",
+                "isin": "DE000VV11SY6",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "CME Nasdaq-100 Future",
+                "price": 0.4,
+                "volume": 3000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5315,
+        "timestamp": 1653586345303,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KE21B55",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:56+02:00",
+                "isin": "DE000KE21B55",
+                "productType": "Discount Zertifikat Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "Deutsche Telekom AG",
+                "price": 15.81,
+                "volume": 1000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5316,
+        "timestamp": 1653586345319,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000UK2KCZ9",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:49+02:00",
+                "isin": "DE000UK2KCZ9",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "UBS AG (London)",
+                "underlying": "NASDAQ 100",
+                "price": 2.88,
+                "volume": 2000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5317,
+        "timestamp": 1653586345335,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SH30C45",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:47+02:00",
+                "isin": "DE000SH30C45",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Astrazeneca",
+                "price": 3.29,
+                "volume": 200
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5318,
+        "timestamp": 1653586345351,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HG25063",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:43+02:00",
+                "isin": "DE000HG25063",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "HSBC Trinkaus & Burkhardt GmbH",
+                "underlying": "DAX Performance",
+                "price": 6.71,
+                "volume": 20000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5319,
+        "timestamp": 1653586345366,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SD2TWJ5",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:42+02:00",
+                "isin": "DE000SD2TWJ5",
+                "productType": "Optionsschein Put",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "DAX Performance",
+                "price": 2.42,
+                "volume": 5000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5320,
+        "timestamp": 1653586345382,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SH5JD78",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:41+02:00",
+                "isin": "DE000SH5JD78",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "DAX Performance",
+                "price": 8.02,
+                "volume": 600
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5321,
+        "timestamp": 1653586345398,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DW08X61",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:39+02:00",
+                "isin": "DE000DW08X61",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "DZ BANK AG",
+                "underlying": "RWE AG",
+                "price": 0.65,
+                "volume": 650
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5322,
+        "timestamp": 1653586345413,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DV8C1K1",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:39+02:00",
+                "isin": "DE000DV8C1K1",
+                "productType": "Optionsschein Call",
+                "issuer": "DZ BANK AG",
+                "underlying": "Deutsche Börse AG",
+                "price": 5.26,
+                "volume": 400
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5323,
+        "timestamp": 1653586345429,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SF4C7G1",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:37+02:00",
+                "isin": "DE000SF4C7G1",
+                "productType": "Optionsschein Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "BYD Co Ltd",
+                "price": 0.48,
+                "volume": 4500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5324,
+        "timestamp": 1653586345445,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HG25063",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:35+02:00",
+                "isin": "DE000HG25063",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "HSBC Trinkaus & Burkhardt GmbH",
+                "underlying": "DAX Performance",
+                "price": 6.69,
+                "volume": 20000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5325,
+        "timestamp": 1653586345460,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DW1KGA2",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:34+02:00",
+                "isin": "DE000DW1KGA2",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "DZ BANK AG",
+                "underlying": "Puma AG Rudolf Dassler Sport",
+                "price": 1.91,
+                "volume": 230
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5326,
+        "timestamp": 1653586345474,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "CH1143057821",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:31+02:00",
+                "isin": "CH1143057821",
+                "productType": "Optionsschein Call",
+                "issuer": "UBS AG (London)",
+                "underlying": "Microsoft Corp.",
+                "price": 1.62,
+                "volume": 300
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5327,
+        "timestamp": 1653586345490,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SH7VDD9",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:31+02:00",
+                "isin": "DE000SH7VDD9",
+                "productType": "Faktor Tracker Zertifikat Put",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Snowflake Inc",
+                "price": 0.49,
+                "volume": 1850
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5328,
+        "timestamp": 1653586345506,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KE1YMB2",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:30+02:00",
+                "isin": "DE000KE1YMB2",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "Dow Jones Industrial Average Excess Return",
+                "price": 2.18,
+                "volume": 250
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5329,
+        "timestamp": 1653586345521,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000CJ7T9N7",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:27+02:00",
+                "isin": "DE000CJ7T9N7",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Amazon.com Inc.",
+                "price": 9.62,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5330,
+        "timestamp": 1653586345537,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SF3ZSQ1",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:27+02:00",
+                "isin": "DE000SF3ZSQ1",
+                "productType": "Optionsschein Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Vertex Pharmaceuticals Inc",
+                "price": 3.72,
+                "volume": 328
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5331,
+        "timestamp": 1653586345552,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SH3US03",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:25+02:00",
+                "isin": "DE000SH3US03",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Adyen NV",
+                "price": 3.81,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5332,
+        "timestamp": 1653586345569,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000PD5VQX0",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:25+02:00",
+                "isin": "DE000PD5VQX0",
+                "productType": "Optionsschein Call",
+                "issuer": "BNP Paribas Emissions- und Handelsges.",
+                "underlying": "NASDAQ 100",
+                "price": 2.76,
+                "volume": 1000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5333,
+        "timestamp": 1653586345584,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VX8XSF1",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:23+02:00",
+                "isin": "DE000VX8XSF1",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "DAX-Future",
+                "price": 2.94,
+                "volume": 300
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5334,
+        "timestamp": 1653586345600,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DV81M57",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:21+02:00",
+                "isin": "DE000DV81M57",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "DZ BANK AG",
+                "underlying": "DAX Performance",
+                "price": 16.53,
+                "volume": 200
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5335,
+        "timestamp": 1653586345616,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KE8VKL6",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:20+02:00",
+                "isin": "DE000KE8VKL6",
+                "productType": "Optionsschein Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "Procter & Gamble",
+                "price": 3.09,
+                "volume": 100
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5336,
+        "timestamp": 1653586345631,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DF58446",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:20+02:00",
+                "isin": "DE000DF58446",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "DZ BANK AG",
+                "underlying": "EUR/USD (Euro / US Dollar)",
+                "price": 5.67,
+                "volume": 70
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5337,
+        "timestamp": 1653586345647,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DV5T687",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:19+02:00",
+                "isin": "DE000DV5T687",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "DZ BANK AG",
+                "underlying": "EUR/CAD (Euro / Kanadischer Dollar)",
+                "price": 2.36,
+                "volume": 200
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5338,
+        "timestamp": 1653586345661,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DW2N9E8",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:18+02:00",
+                "isin": "DE000DW2N9E8",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "DZ BANK AG",
+                "underlying": "DAX Performance",
+                "price": 3.08,
+                "volume": 70
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5339,
+        "timestamp": 1653586345678,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DW1NWA3",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:18+02:00",
+                "isin": "DE000DW1NWA3",
+                "productType": "X-Turbo Put",
+                "issuer": "DZ BANK AG",
+                "underlying": "DAX Performance",
+                "price": 7.76,
+                "volume": 60
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5340,
+        "timestamp": 1653586345693,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000DW12XD4",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:16+02:00",
+                "isin": "DE000DW12XD4",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "DZ BANK AG",
+                "underlying": "DAX Performance",
+                "price": 5.7,
+                "volume": 1000
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5341,
+        "timestamp": 1653586345709,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000GX4YQ28",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:15+02:00",
+                "isin": "DE000GX4YQ28",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "Goldman Sachs",
+                "underlying": "ICE Brent Crude Rohöl (Brent Crude Oil) Rolling Future",
+                "price": 9.6,
+                "volume": 1100
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5342,
+        "timestamp": 1653586345724,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000SB3T9W5",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:15+02:00",
+                "isin": "DE000SB3T9W5",
+                "productType": "Faktor Tracker Zertifikat Call",
+                "issuer": "Societe Generale Effekten GmbH",
+                "underlying": "Kohlendioxid (CO2 Emissionsrechte)",
+                "price": 29.15,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5343,
+        "timestamp": 1653586345740,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KG0E6A3",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:15+02:00",
+                "isin": "DE000KG0E6A3",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "adidas AG",
+                "price": 5.99,
+                "volume": 100
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5344,
+        "timestamp": 1653586345755,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HB67ZC0",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:12+02:00",
+                "isin": "DE000HB67ZC0",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "HypoVereinsbank/UniCredit",
+                "underlying": "HelloFresh",
+                "price": 1,
+                "volume": 700
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5345,
+        "timestamp": 1653586345771,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HG397G3",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:11+02:00",
+                "isin": "DE000HG397G3",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "HSBC Trinkaus & Burkhardt GmbH",
+                "underlying": "DAX Performance",
+                "price": 2.52,
+                "volume": 250
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5346,
+        "timestamp": 1653586345786,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000GX7A514",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:11+02:00",
+                "isin": "DE000GX7A514",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Goldman Sachs Bank Europe SE",
+                "underlying": "NASDAQ 100",
+                "price": 3.7,
+                "volume": 100
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5347,
+        "timestamp": 1653586345803,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VQ605D6",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:11+02:00",
+                "isin": "DE000VQ605D6",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "CBOT Mais (Corn) Rolling Future",
+                "price": 2.43,
+                "volume": 510
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5348,
+        "timestamp": 1653586345818,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000VP811T7",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:11+02:00",
+                "isin": "DE000VP811T7",
+                "productType": "Knock-Out & Open-End Knock-Out Call",
+                "issuer": "Vontobel Financial Products GmbH",
+                "underlying": "NYBOT Zucker (Sugar No. 11) Rolling Future",
+                "price": 5.5,
+                "volume": 180
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5349,
+        "timestamp": 1653586345832,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000HB3ZYH5",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:10+02:00",
+                "isin": "DE000HB3ZYH5",
+                "productType": "Knock-Out & Open-End Knock-Out Put",
+                "issuer": "HypoVereinsbank/UniCredit",
+                "underlying": "Airbus Group SE",
+                "price": 0.99,
+                "volume": 500
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5350,
+        "timestamp": 1653586345849,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000KE1GHG8",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:06+02:00",
+                "isin": "DE000KE1GHG8",
+                "productType": "Optionsschein Call",
+                "issuer": "Citigroup Global Markets Europe AG",
+                "underlying": "Johnson & Johnson",
+                "price": 1.84,
+                "volume": 290
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    },
+    {
+        "partitionID": 0,
+        "offset": 5351,
+        "timestamp": 1653586345864,
+        "compression": "uncompressed",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "DE000PH7J605",
+            "encoding": "text",
+            "schemaId": 0
+        },
+        "value": {
+            "payload": {
+                "time": "2022-05-25T08:00:05+02:00",
+                "isin": "DE000PH7J605",
+                "productType": "Optionsschein Call",
+                "issuer": "BNP Paribas Emissions- und Handelsges.",
+                "underlying": "EUR/CHF (Euro / Schweizer Franken)",
+                "price": 3.07,
+                "volume": 400
+            },
+            "encoding": "protobuf",
+            "schemaId": 1
+        }
+    }
+]
