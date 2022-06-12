@@ -66,7 +66,7 @@ is complex and needs a schema definition.
 ### FFB Website
 
 
-The [Frankfurter Börse Kurs- und Umsatzhistorie]([https://www.handelsregisterbekanntmachungen.de/index.php?aktion=suche](https://www.boerse-frankfurt.de/zertifikate/historische-daten/kurs-und-umsatzhistorie)) contains trades from Frankfurter stock exchange.
+The [Frankfurter Börse Kurs- und Umsatzhistorie]([https://www.boerse-frankfurt.de/zertifikate/historische-daten/kurs-und-umsatzhistorie](https://www.boerse-frankfurt.de/zertifikate/historische-daten/kurs-und-umsatzhistorie)) contains trades from Frankfurter stock exchange.
 Entries contain value and price of trades for underlying corporates recorded within the electronic information and communication system. You can search for the entries in history of the trading hours.
 All entries of a day can be requested through the link below. You only need to pass the query parameter `day`. For instance, we chose the day `2022-05-26` for the 26th of May 2022.
 
