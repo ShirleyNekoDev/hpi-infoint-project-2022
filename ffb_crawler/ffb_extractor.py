@@ -6,8 +6,9 @@ from time import sleep
 from locale import atof, setlocale, LC_NUMERIC
 from datetime import datetime, date, timedelta, timezone
 
-from build.gen.bakdata.trade.v1.trade_pb2 import Trade
+from build.gen.student.academic.v1.trade_pb2 import Trade
 from ffb_producer import FfbProducer
+from id_generator import company_id_generator, sha256
 
 log = logging.getLogger(__name__)
 
@@ -69,8 +70,9 @@ class FfbExtractor:
         proto_trade.time = timezone.localize(time).isoformat()
         proto_trade.isin = trade["ISIN"]
         proto_trade.product_type = trade["PRODUCT TYPE"]
-        proto_trade.issuer = trade["ISSUER"]
         proto_trade.underlying = trade["UNDERLYING"]
         proto_trade.price = atof(trade["PRICE"])
         proto_trade.volume = int(trade["VOLUME"])
+        proto_trade.id = sha256(proto_trade.time + proto_trade.isin)
+        proto_trade.company_id = company_id_generator(trade["ISSUER"])
         return proto_trade

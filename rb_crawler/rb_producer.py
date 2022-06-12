@@ -5,9 +5,10 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.protobuf import ProtobufSerializer
 from confluent_kafka.serialization import StringSerializer
 
-from build.gen.bakdata.corporate.v1 import corporate_pb2
-from build.gen.bakdata.corporate.v1.corporate_pb2 import Corporate
-from rb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, TOPIC
+from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement
+from build.gen.student.academic.v1.company_pb2 import Company
+from build.gen.student.academic.v1.person_pb2 import Person
+from rb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, COMPANY_TOPIC, PERSON_TOPIC
 
 log = logging.getLogger(__name__)
 
@@ -17,25 +18,48 @@ class RbProducer:
         schema_registry_conf = {"url": SCHEMA_REGISTRY_URL}
         schema_registry_client = SchemaRegistryClient(schema_registry_conf)
 
-        protobuf_serializer = ProtobufSerializer(
-            corporate_pb2.Corporate, schema_registry_client, {"use.deprecated.format": True}
-        )
-
-        producer_conf = {
+        self.announcement_producer = SerializingProducer({
             "bootstrap.servers": BOOTSTRAP_SERVER,
             "key.serializer": StringSerializer("utf_8"),
-            "value.serializer": protobuf_serializer,
-        }
+            "value.serializer":
+                ProtobufSerializer(RBAnnouncement, schema_registry_client, {"use.deprecated.format": True}),
+        })
+        self.company_producer = SerializingProducer({
+            "bootstrap.servers": BOOTSTRAP_SERVER,
+            "key.serializer": StringSerializer("utf_8"),
+            "value.serializer":
+                ProtobufSerializer(Company, schema_registry_client, {"use.deprecated.format": True}),
+        })
+        self.person_producer = SerializingProducer({
+            "bootstrap.servers": BOOTSTRAP_SERVER,
+            "key.serializer": StringSerializer("utf_8"),
+            "value.serializer":
+                ProtobufSerializer(Person, schema_registry_client, {"use.deprecated.format": True}),
+        })
 
-        self.producer = SerializingProducer(producer_conf)
-
-    def produce_to_topic(self, corporate: Corporate):
-        self.producer.produce(
-            topic=TOPIC, partition=-1, key=str(corporate.id), value=corporate, on_delivery=self.delivery_report
+    def produce_to_topics(self, 
+        announcement: RBAnnouncement,
+        company: Company,
+        persons: "list[Person]"
+    ):
+        self.announcement_producer.produce(
+            topic=ANNOUNCEMENT_TOPIC, partition=-1, key=str(announcement.id), value=announcement, on_delivery=self.delivery_report
         )
+        if company:
+            self.company_producer.produce(
+                topic=COMPANY_TOPIC, partition=-1, key=str(company.id), value=company, on_delivery=self.delivery_report
+            )
+            self.company_producer.poll()
+
+            for person in persons:
+                self.person_producer.produce(
+                    topic=PERSON_TOPIC, partition=-1, key=str(person.id), value=person, on_delivery=self.delivery_report
+                )
+            if persons:
+                self.person_producer.poll()
 
         # It is a naive approach to flush after each produce this can be optimised
-        self.producer.poll()
+        self.announcement_producer.poll()
 
     @staticmethod
     def delivery_report(err, msg):

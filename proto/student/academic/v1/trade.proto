@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package bakdata.trade.v1;
+
+message Trade {
+  string id = 1;
+  string time = 2;
+  string isin = 3;
+  string company_id = 4;
+  string product_type = 6;
+  string underlying = 7;
+  float price = 8;
+  uint32 volume = 9;
+}
