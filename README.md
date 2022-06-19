@@ -228,6 +228,9 @@ curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' 
 [Elasticvue](https://github.com/cars10/elasticvue) is a free and open-source gui for elasticsearch, allowing you to search and filter your clusters data right in your browser.
 
 
+### ElasticSearch-Dump
+[ElasticSearch-Dump](https://github.com/elasticsearch-dump/elasticsearch-dump) `./dump-elastic-search.sh`
+
 
 ## Teardown
 You can stop and remove all the resources by running:
