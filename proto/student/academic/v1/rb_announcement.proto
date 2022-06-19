@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package bakdata.corporate.v1;
+package student.academic.v1;
 
 message RBAnnouncement {
   string id = 1;
