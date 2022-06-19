@@ -2,9 +2,11 @@ import logging
 from time import sleep
 
 import requests
+from id_generator import sha256
 from parsel import Selector
 
-from build.gen.bakdata.corporate.v1.corporate_pb2 import Corporate, Status
+from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement, Status
+from rb_crawler.rb_information_extractor import extract_related_data
 from rb_producer import RbProducer
 
 log = logging.getLogger(__name__)
@@ -22,21 +24,47 @@ class RbExtractor:
                 log.info(f"Sending Request for: {self.rb_id} and state: {self.state}")
                 text = self.send_request()
                 if "Falsche Parameter" in text:
-                    log.info("The end has reached")
+                    log.info("finished")
                     break
                 selector = Selector(text=text)
-                corporate = Corporate()
-                corporate.rb_id = self.rb_id
-                corporate.state = self.state
-                corporate.reference_id = self.extract_company_reference_number(selector)
+                announcement = RBAnnouncement()
+                announcement.rb_id = self.rb_id
+                announcement.state = self.state
+                identification = self.extract_identification(selector)
+                announcement.court = identification["court"]
+                announcement.reference_id = identification["entry_id"]
                 event_type = selector.xpath("/html/body/font/table/tr[3]/td/text()").get()
-                corporate.event_date = selector.xpath("/html/body/font/table/tr[4]/td/text()").get()
-                corporate.id = f"{self.state}_{self.rb_id}"
+                announcement.event_date = selector.xpath("/html/body/font/table/tr[4]/td/text()").get()
+                announcement.id = sha256(self.state + str(self.rb_id))
                 raw_text: str = selector.xpath("/html/body/font/table/tr[6]/td/text()").get()
-                self.handle_events(corporate, event_type, raw_text)
+                self.parse_event(announcement, event_type, raw_text)
+
+                company = None
+                persons = []
+                if not announcement.event_type == "update" and announcement.information:
+                    if announcement.reference_id.startswith("HRB"):
+                        # HRB = capital venture
+                        data = extract_related_data(raw_text)
+                    
+                        if data:
+                            company = data["company"]
+                            announcement.company_id = company.id
+                            persons = data["persons"]
+                        else:
+                            log.warn(f"Could not parse company information from {self.rb_id} in state {self.state}")
+                    else:
+                        # HRA = individual merchant, ...
+                        # ignore
+                        pass
+                
+                self.producer.produce_to_topics(
+                    announcement=announcement,
+                    company=company,
+                    persons=persons
+                )
                 self.rb_id = self.rb_id + 1
-                log.debug(corporate)
             except Exception as ex:
+                raise ex
                 log.error(f"Skipping {self.rb_id} in state {self.state}")
                 log.error(f"Cause: {ex}")
                 self.rb_id = self.rb_id + 1
@@ -50,33 +78,36 @@ class RbExtractor:
         return requests.get(url=url).text
 
     @staticmethod
-    def extract_company_reference_number(selector: Selector) -> str:
-        return ((selector.xpath("/html/body/font/table/tr[1]/td/nobr/u/text()").get()).split(": ")[1]).strip()
+    def extract_identification(selector: Selector) -> dict:
+        title = selector.xpath("/html/body/font/table/tr[1]/td/nobr/u/text()").get()
+        parts = title.split(": ")
+        court = parts[0]
+        return {
+            "court": court[0:court.find("Aktenzeichen")].strip(),
+            "entry_id": parts[1].strip()
+        }
 
-    def handle_events(self, corporate, event_type, raw_text):
+    def parse_event(self, announcement, event_type, raw_text):
         if event_type == "Neueintragungen":
-            self.handle_new_entries(corporate, raw_text)
+            self.parse_new_entry_event(announcement, raw_text)
         elif event_type == "Veränderungen":
-            self.handle_changes(corporate, raw_text)
+            self.parse_change_event(announcement, raw_text)
         elif event_type == "Löschungen":
-            self.handle_deletes(corporate)
+            self.parse_delete_event(announcement)
 
-    def handle_new_entries(self, corporate: Corporate, raw_text: str) -> Corporate:
-        log.debug(f"New company found: {corporate.id}")
-        corporate.event_type = "create"
-        corporate.information = raw_text
-        corporate.status = Status.STATUS_ACTIVE
-        self.producer.produce_to_topic(corporate=corporate)
+    def parse_new_entry_event(self, announcement: RBAnnouncement, raw_text: str):
+        log.debug(f"New company found: {announcement.id}")
+        announcement.event_type = "create"
+        announcement.information = raw_text
+        announcement.status = Status.STATUS_ACTIVE
 
-    def handle_changes(self, corporate: Corporate, raw_text: str):
-        log.debug(f"Changes are made to company: {corporate.id}")
-        corporate.event_type = "update"
-        corporate.status = Status.STATUS_ACTIVE
-        corporate.information = raw_text
-        self.producer.produce_to_topic(corporate=corporate)
+    def parse_change_event(self, announcement: RBAnnouncement, raw_text: str):
+        log.debug(f"Changes are made to company: {announcement.id}")
+        announcement.event_type = "update"
+        announcement.status = Status.STATUS_ACTIVE
+        announcement.information = raw_text
 
-    def handle_deletes(self, corporate: Corporate):
-        log.debug(f"Company {corporate.id} is inactive")
-        corporate.event_type = "delete"
-        corporate.status = Status.STATUS_INACTIVE
-        self.producer.produce_to_topic(corporate=corporate)
+    def parse_delete_event(self, announcement: RBAnnouncement):
+        log.debug(f"Company {announcement.id} is inactive")
+        announcement.event_type = "delete"
+        announcement.status = Status.STATUS_INACTIVE

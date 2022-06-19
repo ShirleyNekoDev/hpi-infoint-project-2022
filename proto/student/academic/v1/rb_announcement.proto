@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package bakdata.corporate.v1;
+
+message RBAnnouncement {
+  string id = 1;
+  uint32 rb_id = 2;
+  string state = 3;
+  string court = 4;
+  string reference_id = 5;
+  string event_date = 6;
+  string event_type = 7;
+  Status status = 8;
+  string information = 9;
+  string company_id = 10;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_INACTIVE = 1;
+  STATUS_ACTIVE = 2;
+}

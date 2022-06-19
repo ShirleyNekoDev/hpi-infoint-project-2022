@@ -2,7 +2,9 @@ import enum
 
 BOOTSTRAP_SERVER: str = "localhost:29092"
 SCHEMA_REGISTRY_URL: str = "http://localhost:8081"
-TOPIC: str = "corporate-events"
+ANNOUNCEMENT_TOPIC: str = "rb_announcements"
+COMPANY_TOPIC: str = "companies"
+PERSON_TOPIC: str = "persons"
 
 
 class State(str, enum.Enum):
