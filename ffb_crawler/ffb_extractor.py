@@ -69,10 +69,10 @@ class FfbExtractor:
         proto_trade = Trade()
         proto_trade.time = timezone.localize(time).isoformat()
         proto_trade.isin = trade["ISIN"]
+        proto_trade.issuer = trade["ISSUER"]
         proto_trade.product_type = trade["PRODUCT TYPE"]
         proto_trade.underlying = trade["UNDERLYING"]
         proto_trade.price = atof(trade["PRICE"])
         proto_trade.volume = int(trade["VOLUME"])
         proto_trade.id = sha256(proto_trade.time + proto_trade.isin)
-        proto_trade.company_id = company_id_generator(trade["ISSUER"])
         return proto_trade

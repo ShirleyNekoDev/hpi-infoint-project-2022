@@ -35,7 +35,7 @@ class RbExtractor:
                 announcement.reference_id = identification["entry_id"]
                 event_type = selector.xpath("/html/body/font/table/tr[3]/td/text()").get()
                 announcement.event_date = selector.xpath("/html/body/font/table/tr[4]/td/text()").get()
-                announcement.id = sha256(self.state + str(self.rb_id))
+                announcement.id = sha256(self.state + str(self.rb_id) + announcement.court)
                 raw_text: str = selector.xpath("/html/body/font/table/tr[6]/td/text()").get()
                 self.parse_event(announcement, event_type, raw_text)
 
