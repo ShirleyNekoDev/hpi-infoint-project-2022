@@ -26,6 +26,7 @@ class RbExtractor:
                 if "Falsche Parameter" in text:
                     log.info("finished")
                     break
+                log.info(f"Received Response for: {self.rb_id} and state: {self.state}")
                 selector = Selector(text=text)
                 announcement = RBAnnouncement()
                 announcement.rb_id = self.rb_id

@@ -6,8 +6,8 @@ from confluent_kafka.schema_registry.protobuf import ProtobufSerializer
 from confluent_kafka.serialization import StringSerializer
 
 from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement
-from build.gen.student.academic.v1.company_pb2 import Company
-from build.gen.student.academic.v1.person_pb2 import Person
+from build.gen.student.academic.v1.rb_company_pb2 import RBCompany
+from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
 from rb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, COMPANY_TOPIC, PERSON_TOPIC
 
 log = logging.getLogger(__name__)
@@ -28,19 +28,19 @@ class RbProducer:
             "bootstrap.servers": BOOTSTRAP_SERVER,
             "key.serializer": StringSerializer("utf_8"),
             "value.serializer":
-                ProtobufSerializer(Company, schema_registry_client, {"use.deprecated.format": True}),
+                ProtobufSerializer(RBCompany, schema_registry_client, {"use.deprecated.format": True}),
         })
         self.person_producer = SerializingProducer({
             "bootstrap.servers": BOOTSTRAP_SERVER,
             "key.serializer": StringSerializer("utf_8"),
             "value.serializer":
-                ProtobufSerializer(Person, schema_registry_client, {"use.deprecated.format": True}),
+                ProtobufSerializer(RBPerson, schema_registry_client, {"use.deprecated.format": True}),
         })
 
     def produce_to_topics(self, 
         announcement: RBAnnouncement,
-        company: Company,
-        persons: "list[Person]"
+        company: RBCompany,
+        persons: "list[RBPerson]"
     ):
         self.announcement_producer.produce(
             topic=ANNOUNCEMENT_TOPIC, partition=-1, key=str(announcement.id), value=announcement, on_delivery=self.delivery_report
