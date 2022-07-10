@@ -1,8 +1,8 @@
 from locale import atof, setlocale, LC_NUMERIC
 import re
 
-from build.gen.student.academic.v1.company_pb2 import Company, Address, MonetaryStock, CompanyPosition
-from build.gen.student.academic.v1.person_pb2 import Person
+from build.gen.student.academic.v1.rb_company_pb2 import RBCompany, Address, MonetaryStock, CompanyPosition
+from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
 from id_generator import company_id_generator, sha256
 
 
@@ -27,7 +27,7 @@ def extract_personnel(information: str) -> dict:
         position = CompanyPosition()
         position.role = role
 
-        person = Person()
+        person = RBPerson()
         match = personnel_name_regex.search(information, match.end())
         if not match:
             continue
@@ -72,7 +72,7 @@ company_capital_stock_regex = re.compile("[kK]apital: (?P<value>[\d.,]+) (?P<cur
 def extract_company(information: str) -> dict:
     name_match = company_name_regex.search(information)
     if name_match:
-        company = Company()
+        company = RBCompany()
         company.name = name_match.group("name")
         company.id = company_id_generator(company.name)
         last_match_position = name_match.end()

@@ -6,7 +6,8 @@ from time import sleep
 from locale import atof, setlocale, LC_NUMERIC
 from datetime import datetime, date, timedelta, timezone
 
-from build.gen.student.academic.v1.trade_pb2 import Trade
+from build.gen.student.academic.v1.ffb_trade_pb2 import FFBTrade
+from build.gen.student.academic.v1.ffb_company_pb2 import FFBCompany
 from ffb_producer import FfbProducer
 from id_generator import company_id_generator, sha256
 
@@ -41,7 +42,12 @@ class FfbExtractor:
                     i = 0
                     for trade in csv_reader:
                         proto_trade = self.parse_trade(trade)
-                        self.producer.produce_to_topic(proto_trade)
+
+                        proto_company = FFBCompany()
+                        proto_company.name = proto_trade.underlying
+                        proto_company.id = company_id_generator(proto_company.name)
+
+                        self.producer.produce_to_topic(proto_trade, proto_company)
                         i += 1
                     log.info(f"written {i} trade entries for date {date} to Kafka")
                 except Exception as ex:
@@ -62,11 +68,11 @@ class FfbExtractor:
         else:
             return True
 
-    def parse_trade(self, trade) -> Trade:
+    def parse_trade(self, trade) -> FFBTrade:
         timezone = pytz.timezone("Europe/Berlin")
         time = datetime.strptime(trade["TIME"], "%d.%m.%Y %H:%M:%S")
 
-        proto_trade = Trade()
+        proto_trade = FFBTrade()
         proto_trade.time = timezone.localize(time).isoformat()
         proto_trade.isin = trade["ISIN"]
         proto_trade.issuer = trade["ISSUER"]
