@@ -8,9 +8,8 @@ from locale import atof, setlocale, LC_NUMERIC
 from datetime import datetime, date, timedelta, timezone
 
 from build.gen.student.academic.v1.ffb_trade_pb2 import FFBTrade
-from build.gen.student.academic.v1.ffb_company_pb2 import FFBCompany
 from ffb_producer import FfbProducer
-from id_generator import company_id_generator, sha256, standardize_company_name
+from id_generator import sha256
 
 log = logging.getLogger(__name__)
 
@@ -58,28 +57,24 @@ class FfbExtractor:
                     filename = tmp_folder + "/" + str(date) + ".csv"
                     if os.path.exists(filename):
                         log.info(f"skipping date {date}, already downloaded")
-                        continue
-
-                    log.info(f"requesting csv for date {date}")
-                    csv_data = self.send_request(date)
-                    with open(filename, 'w') as file:
-                        log.info(f"writing csv temp file for date {date}")
-                        file.write(csv_data)
+                        with open(filename) as file:
+                            csv_data = file.readlines()
+                    else:
+                        log.info(f"requesting csv for date {date}")
+                        csv_data = self.send_request(date)
+                        with open(filename, 'w') as file:
+                            log.info(f"writing csv temp file for date {date}")
+                            file.write(csv_data)
+                        csv_data = csv_data.splitlines()
 
                     if not self.download_only:
                         log.info(f"parsing csv for date {date}")
-                        csv_reader = csv.DictReader(csv_data.splitlines(), delimiter=";")
+                        csv_reader = csv.DictReader(csv_data, delimiter=";")
 
                         i = 0
                         for trade in csv_reader:
                             proto_trade = self.parse_trade(trade)
-
-                            proto_company = FFBCompany()
-                            proto_company.name = proto_trade.underlying.strip()
-                            proto_company.std_name = standardize_company_name(proto_company.name)
-                            proto_company.id = company_id_generator(proto_company.name)
-
-                            self.producer.produce_to_topic(proto_trade, proto_company)
+                            self.producer.produce_to_topic(proto_trade)
                             i += 1
                         log.info(f"written {i} trade entries for date {date} to Kafka")
                 except Exception as ex:

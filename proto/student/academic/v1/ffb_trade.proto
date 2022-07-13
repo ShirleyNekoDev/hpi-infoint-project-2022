@@ -9,6 +9,7 @@ message FFBTrade {
   string issuer = 4;
   string product_type = 6;
   string underlying = 7; // company name - will be matched to company id
+  string company_id = 10;
   float price = 8;
   uint32 volume = 9;
 }

@@ -1,7 +1,7 @@
 import logging
 import os
 
-from rb_announcement_filter.announcement_filter import AnnouncementFilter
+from rb_announcement_processor.announcement_processor import AnnouncementProcessor
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO"), format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 
 def run():
-    consumer = AnnouncementFilter()
+    consumer = AnnouncementProcessor()
     consumer.run()
 
 

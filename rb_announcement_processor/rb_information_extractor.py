@@ -1,7 +1,7 @@
 from locale import atof, setlocale, LC_NUMERIC
 import re
 
-from build.gen.student.academic.v1.rb_company_pb2 import RBCompany, CompanyPosition
+from build.gen.student.academic.v1.company_pb2 import Company, CompanyPosition
 from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
 from id_generator import company_id_generator, sha256, standardize_company_name
 
@@ -73,7 +73,7 @@ company_capital_stock_regex = re.compile("[kK]apital: (?P<value>[\d.,]+) (?P<cur
 def extract_company(information: str) -> dict:
     name_match = company_name_regex.search(information)
     if name_match:
-        company = RBCompany()
+        company = Company()
         company.name = name_match.group("name").strip()
         company.std_name = standardize_company_name(company.name)
         company.id = company_id_generator(company.name)

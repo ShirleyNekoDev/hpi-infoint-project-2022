@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package student.academic.v1;
-
-message FFBCompany {
-  string id = 1;
-  string name = 2;
-  string std_name = 3;
-}

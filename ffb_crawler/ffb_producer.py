@@ -6,8 +6,7 @@ from confluent_kafka.schema_registry.protobuf import ProtobufSerializer
 from confluent_kafka.serialization import StringSerializer
 
 from build.gen.student.academic.v1.ffb_trade_pb2 import FFBTrade
-from build.gen.student.academic.v1.ffb_company_pb2 import FFBCompany
-from ffb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, TRADE_EVENT_TOPIC, COMPANY_TOPIC
+from ffb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, TRADE_EVENT_TOPIC
 
 log = logging.getLogger(__name__)
 
@@ -23,25 +22,14 @@ class FfbProducer:
             "value.serializer":
                 ProtobufSerializer(FFBTrade, schema_registry_client, {"use.deprecated.format": True}),
         })
-        self.company_producer = SerializingProducer({
-            "bootstrap.servers": BOOTSTRAP_SERVER,
-            "key.serializer": StringSerializer("utf_8"),
-            "value.serializer":
-                ProtobufSerializer(FFBCompany, schema_registry_client, {"use.deprecated.format": True}),
-        })
 
-    def produce_to_topic(self, trade: FFBTrade, company: FFBCompany):
+    def produce_to_topic(self, trade: FFBTrade):
         self.trade_producer.produce(
             topic=TRADE_EVENT_TOPIC, partition=-1, key=str(trade.id), value=trade, on_delivery=self.delivery_report
-        )
-        
-        self.company_producer.produce(
-            topic=COMPANY_TOPIC, partition=-1, key=str(company.id), value=company, on_delivery=self.delivery_report
         )
 
         # It is a naive approach to flush after each produce this can be optimised
         self.trade_producer.poll()
-        self.company_producer.poll()
 
     @staticmethod
     def delivery_report(err, msg):

@@ -7,9 +7,9 @@ from confluent_kafka.serialization import StringDeserializer, StringSerializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 
 from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement
-from build.gen.student.academic.v1.rb_company_pb2 import RBCompany
+from build.gen.student.academic.v1.company_pb2 import Company
 from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
-from rb_announcement_filter.rb_information_extractor import extract_company, extract_personnel
+from rb_announcement_processor.rb_information_extractor import extract_company, extract_personnel
 
 from rb_crawler.constant import BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, COMPANY_TOPIC, PERSON_TOPIC, SCHEMA_REGISTRY_URL
 
@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 
 # consumer and producer
-class AnnouncementFilter:
+class AnnouncementProcessor:
 
     def __init__(self):
         deserializer = ProtobufDeserializer(
@@ -52,7 +52,7 @@ class AnnouncementFilter:
             "bootstrap.servers": BOOTSTRAP_SERVER,
             "key.serializer": StringSerializer("utf_8"),
             "value.serializer":
-                ProtobufSerializer(RBCompany, schema_registry_client, {"use.deprecated.format": True}),
+                ProtobufSerializer(Company, schema_registry_client, {"use.deprecated.format": True}),
         })
 
         self.person_producer = SerializingProducer({
@@ -110,7 +110,7 @@ class AnnouncementFilter:
 
     def produce(self, 
         announcement: RBAnnouncement, 
-        company: RBCompany, 
+        company: Company, 
         persons
     ):
         # same class, but does not get accepted by serializer. why?
