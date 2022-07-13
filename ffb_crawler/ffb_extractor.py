@@ -1,5 +1,6 @@
 import logging
 import csv
+import os
 import requests
 import pytz
 from time import sleep
@@ -9,24 +10,44 @@ from datetime import datetime, date, timedelta, timezone
 from build.gen.student.academic.v1.ffb_trade_pb2 import FFBTrade
 from build.gen.student.academic.v1.ffb_company_pb2 import FFBCompany
 from ffb_producer import FfbProducer
-from id_generator import company_id_generator, sha256
+from id_generator import company_id_generator, sha256, standardize_company_name
 
 log = logging.getLogger(__name__)
 
+tmp_folder = "./data/ffb_crawler"
 
 def daterange(start_date: date, end_date: date):
     delta = timedelta(days=1)
-    while start_date <= end_date:
-        yield start_date
-        start_date += delta
+    if start_date < end_date:
+        while start_date <= end_date:
+            yield start_date
+            start_date += delta
+    else:
+        while start_date >= end_date:
+            yield start_date
+            start_date -= delta
 
 
 class FfbExtractor:
-    def __init__(self, start_date: date, end_date: date):
+    def __init__(self, start_date: date, end_date: date, reverse: bool, download_only: bool):
         self.start_date = start_date
-        self.end_date = end_date
+        if end_date:
+            if reverse:
+                self.start_date = end_date
+                self.end_date = start_date
+            else:
+                self.end_date = end_date
+        else:
+            if reverse:
+                self.end_date = date(1970, 1, 1)
+            else:
+                self.end_date = date.today()
+
+        os.makedirs(tmp_folder, exist_ok=True)
         setlocale(LC_NUMERIC, "de_DE")
-        self.producer = FfbProducer()
+        self.download_only = download_only
+        if not self.download_only:
+            self.producer = FfbProducer()
 
     def extract(self):
         log.info(f"running stock data extraction from FFB for dates {self.start_date} to {self.end_date}")
@@ -34,22 +55,33 @@ class FfbExtractor:
         for date in daterange(self.start_date, self.end_date):
             if self.is_weekday(date):
                 try:
+                    filename = tmp_folder + "/" + str(date) + ".csv"
+                    if os.path.exists(filename):
+                        log.info(f"skipping date {date}, already downloaded")
+                        continue
+
                     log.info(f"requesting csv for date {date}")
                     csv_data = self.send_request(date)
-                    log.info(f"parsing csv for date {date}")
-                    csv_reader = csv.DictReader(csv_data.splitlines(), delimiter=";")
+                    with open(filename, 'w') as file:
+                        log.info(f"writing csv temp file for date {date}")
+                        file.write(csv_data)
 
-                    i = 0
-                    for trade in csv_reader:
-                        proto_trade = self.parse_trade(trade)
+                    if not self.download_only:
+                        log.info(f"parsing csv for date {date}")
+                        csv_reader = csv.DictReader(csv_data.splitlines(), delimiter=";")
 
-                        proto_company = FFBCompany()
-                        proto_company.name = proto_trade.underlying
-                        proto_company.id = company_id_generator(proto_company.name)
+                        i = 0
+                        for trade in csv_reader:
+                            proto_trade = self.parse_trade(trade)
 
-                        self.producer.produce_to_topic(proto_trade, proto_company)
-                        i += 1
-                    log.info(f"written {i} trade entries for date {date} to Kafka")
+                            proto_company = FFBCompany()
+                            proto_company.name = proto_trade.underlying.strip()
+                            proto_company.std_name = standardize_company_name(proto_company.name)
+                            proto_company.id = company_id_generator(proto_company.name)
+
+                            self.producer.produce_to_topic(proto_trade, proto_company)
+                            i += 1
+                        log.info(f"written {i} trade entries for date {date} to Kafka")
                 except Exception as ex:
                     log.warn(f"extraction failed for date {date}", exc_info=True)
                     continue

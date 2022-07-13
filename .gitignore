@@ -4,3 +4,4 @@ build/
 __pycache__/
 node_modules
 docker_data/
+data/ffb_crawler/

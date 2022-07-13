@@ -48,9 +48,11 @@ class Date(click.ParamType):
     help="Start date to initialize the crawl from, defaults to today",
     default=str(date.today()),
 )
-@click.option("-e", "--end-date", type=Date(), help="End date", default=str(date.today()))
-def run(start_date: Date, end_date: Date):
-    FfbExtractor(start_date, end_date).extract()
+@click.option("-e", "--end-date", type=Date(), help="End date", default=None)
+@click.option("-r", "--reverse", is_flag=True, help="Reverse crawling", default=False)
+@click.option("-d", "--download-only", is_flag=True, help="Only download CSV files, no writing to Kafka", default=False)
+def run(start_date: Date, end_date: Date, reverse: bool, download_only: bool):
+    FfbExtractor(start_date, end_date, reverse, download_only).extract()
 
 
 if __name__ == "__main__":
