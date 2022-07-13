@@ -5,10 +5,11 @@ package student.academic.v1;
 message RBCompany {
   string id = 1;
   string name = 2;
-  string description = 3;
-  Address address = 4;
-  MonetaryStock capital_stock = 5;
-  repeated CompanyPosition position = 6;
+  string std_name = 3;
+  string description = 4;
+  Address address = 5;
+  MonetaryStock capital_stock = 6;
+  repeated CompanyPosition position = 7;
 }
 
 message Address {

@@ -1,9 +1,9 @@
 from locale import atof, setlocale, LC_NUMERIC
 import re
 
-from build.gen.student.academic.v1.rb_company_pb2 import RBCompany, Address, MonetaryStock, CompanyPosition
+from build.gen.student.academic.v1.rb_company_pb2 import RBCompany, CompanyPosition
 from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
-from id_generator import company_id_generator, sha256
+from id_generator import company_id_generator, sha256, standardize_company_name
 
 
 setlocale(LC_NUMERIC, "de_DE")
@@ -64,8 +64,9 @@ def extract_personnel(information: str) -> dict:
         "positions": positions
     }
 
-company_name_regex = re.compile("^.*?:\s+(?P<name>[^,;]*?),")
-company_address_regex = re.compile("Geschäftsanschrift: (?P<street>.+?), (?P<zipcode>\d{5}) (?P<city>.+?)[\.;]")
+company_name_regex = re.compile("^(?P<name>[^,;]*?),")
+company_business_address_regex = re.compile("Geschäftsanschrift: (?P<street>.+?), (?P<zipcode>\d{5}) (?P<city>.+?)[\.;]")
+company_address_regex = re.compile(r'\s+.*?, (?P<street>.+?), (?P<zipcode>\d{5}) (?P<city>.+?)\.')
 company_description_regex = re.compile("Gegenstand(?: des Unternehmens)?: (?P<description>.+?.)\.")
 company_capital_stock_regex = re.compile("[kK]apital: (?P<value>[\d.,]+) (?P<currency>[A-Z]+?)[\.;]")
 
@@ -73,18 +74,23 @@ def extract_company(information: str) -> dict:
     name_match = company_name_regex.search(information)
     if name_match:
         company = RBCompany()
-        company.name = name_match.group("name")
+        company.name = name_match.group("name").strip()
+        company.std_name = standardize_company_name(company.name)
         company.id = company_id_generator(company.name)
         last_match_position = name_match.end()
 
-        address_match = company_address_regex.search(information, name_match.end())
-        if not address_match:
-            # a company is invalid, if it has no address
-            return None
-        company.address.city = address_match.group("city")
-        company.address.zipcode = address_match.group("zipcode")
-        company.address.street = address_match.group("street")
-        last_match_position = max(last_match_position, address_match.end())
+        address_match = company_business_address_regex.search(information, name_match.end())
+        if address_match:
+            company.address.city = address_match.group("city")
+            company.address.zipcode = address_match.group("zipcode")
+            company.address.street = address_match.group("street")
+            last_match_position = max(last_match_position, address_match.end())
+        else:
+            address_match = company_address_regex.search(information, name_match.end())
+            if address_match:
+                company.address.city = address_match.group("city")
+                company.address.zipcode = address_match.group("zipcode")
+                company.address.street = address_match.group("street")
 
         description_match = company_description_regex.search(information, name_match.end())
         if description_match:
@@ -104,15 +110,3 @@ def extract_company(information: str) -> dict:
         }
     else:
         return None
-
-def extract_related_data(information: str) -> dict:
-    company_data = extract_company(information)
-    if not company_data:
-        return None
-    company = company_data["company"]
-    persons_and_positions = extract_personnel(information[company_data["end_of_match"]:])
-    company.position.extend(persons_and_positions["positions"])
-    return {
-        "company": company,
-        "persons": persons_and_positions["persons"],
-    }

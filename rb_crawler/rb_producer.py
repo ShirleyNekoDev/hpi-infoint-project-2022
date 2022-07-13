@@ -6,9 +6,7 @@ from confluent_kafka.schema_registry.protobuf import ProtobufSerializer
 from confluent_kafka.serialization import StringSerializer
 
 from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement
-from build.gen.student.academic.v1.rb_company_pb2 import RBCompany
-from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
-from rb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, COMPANY_TOPIC, PERSON_TOPIC
+from rb_crawler.constant import SCHEMA_REGISTRY_URL, BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC
 
 log = logging.getLogger(__name__)
 
@@ -24,39 +22,11 @@ class RbProducer:
             "value.serializer":
                 ProtobufSerializer(RBAnnouncement, schema_registry_client, {"use.deprecated.format": True}),
         })
-        self.company_producer = SerializingProducer({
-            "bootstrap.servers": BOOTSTRAP_SERVER,
-            "key.serializer": StringSerializer("utf_8"),
-            "value.serializer":
-                ProtobufSerializer(RBCompany, schema_registry_client, {"use.deprecated.format": True}),
-        })
-        self.person_producer = SerializingProducer({
-            "bootstrap.servers": BOOTSTRAP_SERVER,
-            "key.serializer": StringSerializer("utf_8"),
-            "value.serializer":
-                ProtobufSerializer(RBPerson, schema_registry_client, {"use.deprecated.format": True}),
-        })
 
-    def produce_to_topics(self, 
-        announcement: RBAnnouncement,
-        company: RBCompany,
-        persons: "list[RBPerson]"
-    ):
+    def produce_to_topics(self, announcement: RBAnnouncement):
         self.announcement_producer.produce(
             topic=ANNOUNCEMENT_TOPIC, partition=-1, key=str(announcement.id), value=announcement, on_delivery=self.delivery_report
         )
-        if company:
-            self.company_producer.produce(
-                topic=COMPANY_TOPIC, partition=-1, key=str(company.id), value=company, on_delivery=self.delivery_report
-            )
-            self.company_producer.poll()
-
-            for person in persons:
-                self.person_producer.produce(
-                    topic=PERSON_TOPIC, partition=-1, key=str(person.id), value=person, on_delivery=self.delivery_report
-                )
-            if persons:
-                self.person_producer.poll()
 
         # It is a naive approach to flush after each produce this can be optimised
         self.announcement_producer.poll()

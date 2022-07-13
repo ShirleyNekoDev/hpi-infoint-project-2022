@@ -6,7 +6,6 @@ from id_generator import sha256
 from parsel import Selector
 
 from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement, Status
-from rb_crawler.rb_information_extractor import extract_related_data
 from rb_producer import RbProducer
 
 log = logging.getLogger(__name__)
@@ -40,32 +39,9 @@ class RbExtractor:
                 raw_text: str = selector.xpath("/html/body/font/table/tr[6]/td/text()").get()
                 self.parse_event(announcement, event_type, raw_text)
 
-                company = None
-                persons = []
-                if not announcement.event_type == "update" and announcement.information:
-                    if announcement.reference_id.startswith("HRB"):
-                        # HRB = capital venture
-                        data = extract_related_data(raw_text)
-                    
-                        if data:
-                            company = data["company"]
-                            announcement.company_id = company.id
-                            persons = data["persons"]
-                        else:
-                            log.warn(f"Could not parse company information from {self.rb_id} in state {self.state}")
-                    else:
-                        # HRA = individual merchant, ...
-                        # ignore
-                        pass
-                
-                self.producer.produce_to_topics(
-                    announcement=announcement,
-                    company=company,
-                    persons=persons
-                )
+                self.producer.produce_to_topics(announcement)
                 self.rb_id = self.rb_id + 1
             except Exception as ex:
-                raise ex
                 log.error(f"Skipping {self.rb_id} in state {self.state}")
                 log.error(f"Cause: {ex}")
                 self.rb_id = self.rb_id + 1

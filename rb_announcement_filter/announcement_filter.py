@@ -7,12 +7,16 @@ from confluent_kafka.serialization import StringDeserializer, StringSerializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 
 from build.gen.student.academic.v1.rb_announcement_pb2 import RBAnnouncement
+from build.gen.student.academic.v1.rb_company_pb2 import RBCompany
+from build.gen.student.academic.v1.rb_person_pb2 import RBPerson
+from rb_announcement_filter.rb_information_extractor import extract_company, extract_personnel
 
-from rb_crawler.constant import BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, SCHEMA_REGISTRY_URL
+from rb_crawler.constant import BOOTSTRAP_SERVER, ANNOUNCEMENT_TOPIC, COMPANY_TOPIC, PERSON_TOPIC, SCHEMA_REGISTRY_URL
 
 FILTERED_ANNOUNCEMENT_TOPIC = "rb_filtered_announcements"
 
 log = logging.getLogger(__name__)
+
 
 # consumer and producer
 class AnnouncementFilter:
@@ -43,6 +47,20 @@ class AnnouncementFilter:
             "value.serializer":
                 ProtobufSerializer(RBAnnouncement, schema_registry_client, {"use.deprecated.format": True}),
         })
+        
+        self.company_producer = SerializingProducer({
+            "bootstrap.servers": BOOTSTRAP_SERVER,
+            "key.serializer": StringSerializer("utf_8"),
+            "value.serializer":
+                ProtobufSerializer(RBCompany, schema_registry_client, {"use.deprecated.format": True}),
+        })
+
+        self.person_producer = SerializingProducer({
+            "bootstrap.servers": BOOTSTRAP_SERVER,
+            "key.serializer": StringSerializer("utf_8"),
+            "value.serializer":
+                ProtobufSerializer(RBPerson, schema_registry_client, {"use.deprecated.format": True}),
+        })
 
     def run(self):
         self.consume()
@@ -57,7 +75,7 @@ class AnnouncementFilter:
                 if msg is None:
                     continue
                 if msg.error():
-                    print(msg.error())
+                    log.warn(msg.error())
                 else:
                     self.processAnnouncement(msg.value())
         except KeyboardInterrupt:
@@ -66,13 +84,35 @@ class AnnouncementFilter:
             self.consumer.close()
 
     def processAnnouncement(self, announcement: RBAnnouncement):
-        if announcement.information and announcement.company_id:
-            print(f"Annoucement {announcement.rb_id}[{announcement.state}] has extracted company")
-            self.produce(announcement)
-        else:
-            print(f"Annoucement {announcement.rb_id}[{announcement.state}] has no extracted company")
+        if announcement.information:
+            if announcement.reference_id.startswith("HRB"):
+                # HRB = capital venture
+                company = None
+                company_data = extract_company(announcement.information)
+                end_of_match = 0
+                if company_data:
+                    company = company_data["company"]
+                    end_of_match = company_data["end_of_match"]
+                    announcement.company_id = company.id
 
-    def produce(self, announcement: RBAnnouncement):
+                persons_and_positions_data = extract_personnel(announcement.information[end_of_match:])
+                if company:
+                    company.position.extend(persons_and_positions_data["positions"])
+                persons = persons_and_positions_data["persons"]
+            
+                log.info(f"Parsed {announcement.rb_id} / {announcement.state}")
+                self.produce(announcement, company, persons)
+            else:
+                # HRA = individual merchant, ...
+                log.info(f"Skipped {announcement.rb_id} / {announcement.state} - not HRB")
+        else:
+            log.info(f"Skipped {announcement.rb_id} / {announcement.state} - empty information field")
+
+    def produce(self, 
+        announcement: RBAnnouncement, 
+        company: RBCompany, 
+        persons
+    ):
         # same class, but does not get accepted by serializer. why?
         whatEver = RBAnnouncement()
         whatEver.id = announcement.id
@@ -89,7 +129,23 @@ class AnnouncementFilter:
         self.announcement_producer.produce(
             topic=FILTERED_ANNOUNCEMENT_TOPIC, partition=-1, key=str(whatEver.id), value=whatEver, on_delivery=self.delivery_report
         )
-        print(f"Annoucement {announcement.rb_id}[{announcement.state}] (re)pushed to Kafka")
+        self.announcement_producer.poll()
+        # log.info(f"Annoucement {announcement.rb_id} / {announcement.state} (re)pushed to Kafka")
+        
+        if company:
+            self.company_producer.produce(
+                topic=COMPANY_TOPIC, partition=-1, key=str(company.id), value=company, on_delivery=self.delivery_report
+            )
+            self.company_producer.poll()
+            # log.info(f"Company {company.id} \"{company.name}\" pushed to Kafka")
+        
+        for person in persons:
+            self.person_producer.produce(
+                topic=PERSON_TOPIC, partition=-1, key=str(person.id), value=person, on_delivery=self.delivery_report
+            )
+            # log.info(f"Person {person.id} pushed to Kafka")
+        if persons:
+            self.person_producer.poll()
 
     @staticmethod
     def delivery_report(err, msg):
