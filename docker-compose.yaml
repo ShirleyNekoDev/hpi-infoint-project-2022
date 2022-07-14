@@ -91,7 +91,7 @@ services:
       KAFKA_REST_SCHEMA_REGISTRY_URL: "schema-registry:8081"
       KAFKA_REST_HOST_NAME: kafka-rest
       KAFKA_REST_DEBUG: "true"
-      JVM_OPTS: "-Xms128M -Xmx128M"
+      JVM_OPTS: "-Xms256M -Xmx256M"
     ports:
       - "8082:8082"
 
@@ -162,7 +162,7 @@ services:
     hostname: elasticsearch
     environment:
       - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ES_JAVA_OPTS=-Xms512m -Xmx1024m
       - "http.cors.enabled=true"
       - "http.cors.allow-origin=https://app.elasticvue.com"
     ports:
