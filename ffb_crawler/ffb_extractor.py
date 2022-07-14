@@ -57,8 +57,9 @@ class FfbExtractor:
                     filename = tmp_folder + "/" + str(date) + ".csv"
                     if os.path.exists(filename):
                         log.info(f"skipping date {date}, already downloaded")
-                        with open(filename) as file:
-                            csv_data = file.readlines()
+                        if not self.download_only:
+                            with open(filename) as file:
+                                csv_data = file.readlines()
                     else:
                         log.info(f"requesting csv for date {date}")
                         csv_data = self.send_request(date)
@@ -73,9 +74,13 @@ class FfbExtractor:
 
                         i = 0
                         for trade in csv_reader:
-                            proto_trade = self.parse_trade(trade)
-                            self.producer.produce_to_topic(proto_trade)
-                            i += 1
+                            try:
+                                proto_trade = self.parse_trade(trade)
+                                if proto_trade.underlying and proto_trade.issuer:
+                                    self.producer.produce_to_topic(proto_trade)
+                                i += 1
+                            except Exception as ex:
+                                pass
                         log.info(f"written {i} trade entries for date {date} to Kafka")
                 except Exception as ex:
                     log.warn(f"extraction failed for date {date}", exc_info=True)
@@ -87,7 +92,7 @@ class FfbExtractor:
         url = f"https://api.boerse-frankfurt.de/v1/data/derivatives_trade_history/day/csv?day={day}&language=de"
         # For graceful crawling! Remove this at your own risk!
         sleep(5)
-        return requests.get(url=url).content.decode("utf-8-sig")
+        return requests.get(url=url, timeout=120).content.decode("utf-8-sig")
 
     def is_weekday(self, date: datetime.date) -> bool:
         if date.weekday() > 4:
