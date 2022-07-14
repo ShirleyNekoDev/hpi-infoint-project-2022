@@ -142,6 +142,7 @@ services:
       CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
     volumes:
       - ./connect/elastic-sink.json:/connect/elastic-sink.json
+      - ./connect/elastic-sink-ffb-company.json:/connect/elastic-sink-ffb-company.json
     command:
       - bash
       - -c
