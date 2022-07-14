@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 import sys
 
@@ -120,7 +121,9 @@ class AnnouncementProcessor:
         whatEver.state = announcement.state
         whatEver.court = announcement.court
         whatEver.reference_id = announcement.reference_id
-        whatEver.event_date = announcement.event_date
+        # reformat event date from german date format to ISO date format
+        event_date = datetime.strptime(announcement.event_date, "%d.%m.%Y")
+        whatEver.event_date = event_date.date().isoformat()
         whatEver.event_type = announcement.event_type
         whatEver.status = announcement.status
         whatEver.information = announcement.information
