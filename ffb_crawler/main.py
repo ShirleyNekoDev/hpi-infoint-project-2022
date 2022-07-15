@@ -51,8 +51,10 @@ class Date(click.ParamType):
 @click.option("-e", "--end-date", type=Date(), help="End date", default=None)
 @click.option("-r", "--reverse", is_flag=True, help="Reverse crawling", default=False)
 @click.option("-d", "--download-only", is_flag=True, help="Only download CSV files, no writing to Kafka", default=False)
-def run(start_date: Date, end_date: Date, reverse: bool, download_only: bool):
-    FfbExtractor(start_date, end_date, reverse, download_only).extract()
+@click.option("-k", "--skip-existing", is_flag=True, help="Skip existing CSV files", default=False)
+@click.option("-n", "--no-download", is_flag=True, help="Only write existing CSV files to Kafka", default=False)
+def run(start_date: Date, end_date: Date, reverse: bool, download_only: bool, skip_existing: bool, no_download: bool):
+    FfbExtractor(start_date, end_date, reverse, download_only, skip_existing, no_download).extract()
 
 
 if __name__ == "__main__":

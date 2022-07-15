@@ -28,7 +28,7 @@ def daterange(start_date: date, end_date: date):
 
 
 class FfbExtractor:
-    def __init__(self, start_date: date, end_date: date, reverse: bool, download_only: bool):
+    def __init__(self, start_date: date, end_date: date, reverse: bool, download_only: bool, skip_existing: bool, no_download: bool):
         self.start_date = start_date
         if end_date:
             if reverse:
@@ -45,6 +45,8 @@ class FfbExtractor:
         os.makedirs(tmp_folder, exist_ok=True)
         setlocale(LC_NUMERIC, "de_DE")
         self.download_only = download_only
+        self.skip_existing = skip_existing
+        self.no_download = no_download
         if not self.download_only:
             self.producer = FfbProducer()
 
@@ -56,15 +58,21 @@ class FfbExtractor:
                 try:
                     filename = tmp_folder + "/" + str(date) + ".csv"
                     if os.path.exists(filename):
-                        log.info(f"skipping date {date}, already downloaded")
+                        if self.skip_existing:
+                            log.info(f"skipping date {date}, already downloaded (skip-existing)")
+                            continue
                         if not self.download_only:
+                            log.info(f"reading csv for date {date}")
                             with open(filename) as file:
                                 csv_data = file.readlines()
                     else:
+                        if self.no_download:
+                            log.info(f"skipping date {date}, csv not downloaded (no-download)")
+                            continue
                         log.info(f"requesting csv for date {date}")
                         csv_data = self.send_request(date)
                         with open(filename, 'w') as file:
-                            log.info(f"writing csv temp file for date {date}")
+                            log.info(f"writing csv file for date {date}")
                             file.write(csv_data)
                         csv_data = csv_data.splitlines()
 
@@ -91,7 +99,7 @@ class FfbExtractor:
     def send_request(self, day):
         url = f"https://api.boerse-frankfurt.de/v1/data/derivatives_trade_history/day/csv?day={day}&language=de"
         # For graceful crawling! Remove this at your own risk!
-        sleep(5)
+        sleep(30)
         return requests.get(url=url, timeout=120).content.decode("utf-8-sig")
 
     def is_weekday(self, date: datetime.date) -> bool:

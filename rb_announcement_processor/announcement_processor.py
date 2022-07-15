@@ -72,8 +72,9 @@ class AnnouncementProcessor:
         self.consumer.subscribe([ANNOUNCEMENT_TOPIC])
         try:
             while True:
-                msg = self.consumer.poll(timeout=10.0)
+                msg = self.consumer.poll(timeout=30.0)
                 if msg is None:
+                    log.info("waiting for next message")
                     continue
                 if msg.error():
                     log.warn(msg.error())

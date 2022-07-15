@@ -79,29 +79,36 @@ def extract_company(information: str) -> dict:
         company.id = company_id_generator(company.name)
         last_match_position = name_match.end()
 
-        address_match = company_business_address_regex.search(information, name_match.end())
-        if address_match:
-            company.address.city = address_match.group("city")
-            company.address.zipcode = address_match.group("zipcode")
-            company.address.street = address_match.group("street")
-            last_match_position = max(last_match_position, address_match.end())
-        else:
-            address_match = company_address_regex.search(information, name_match.end())
+        try:
+            address_match = company_business_address_regex.search(information, name_match.end())
             if address_match:
                 company.address.city = address_match.group("city")
                 company.address.zipcode = address_match.group("zipcode")
                 company.address.street = address_match.group("street")
+                last_match_position = max(last_match_position, address_match.end())
+            else:
+                address_match = company_address_regex.search(information, name_match.end())
+                if address_match:
+                    company.address.city = address_match.group("city")
+                    company.address.zipcode = address_match.group("zipcode")
+                    company.address.street = address_match.group("street")
 
-        description_match = company_description_regex.search(information, name_match.end())
-        if description_match:
-            company.description = description_match.group("description")
-            last_match_position = max(last_match_position, description_match.end())
+            description_match = company_description_regex.search(information, name_match.end())
+            if description_match:
+                company.description = description_match.group("description")
+                last_match_position = max(last_match_position, description_match.end())
+        except Exception as ex:
+            pass
 
-        capital_stock_match = company_capital_stock_regex.search(information, name_match.end())
-        if capital_stock_match:
-            company.capital_stock.value = atof(capital_stock_match.group("value"))
-            company.capital_stock.currency = capital_stock_match.group("currency")
-            last_match_position = max(last_match_position, capital_stock_match.end())
+        try:
+            capital_stock_match = company_capital_stock_regex.search(information, name_match.end())
+            if capital_stock_match:
+                company.capital_stock.value = atof(capital_stock_match.group("value"))
+                company.capital_stock.currency = capital_stock_match.group("currency")
+                last_match_position = max(last_match_position, capital_stock_match.end())
+        except Exception as ex:
+            pass
+        
         # positions will be inserted after person extraction
 
         return {
