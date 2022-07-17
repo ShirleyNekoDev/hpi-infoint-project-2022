@@ -6,7 +6,7 @@ can find the documentation for setting up the project.
 ## Prerequisites
 
 - Install [Poetry](https://python-poetry.org/docs/#installation)
-- Install [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/)
+- Install [Docker](https://docs.docker.com/get-docker/) and [docker-](https://docs.docker.com/compose/install/)
 - Install [Protobuf compiler (protoc)](https://grpc.io/docs/protoc-installation/). If you are using windows you can
   use [this guide](https://www.geeksforgeeks.org/how-to-install-protocol-buffers-on-windows/)
 - Install [jq](https://stedolan.github.io/jq/download/)
@@ -63,6 +63,19 @@ key will look like this: `rp_56267`.
 The value of the message contains more information like `event_name`, `event_date`, and more. Therefore, the value type
 is complex and needs a schema definition.
 
+
+
+
+RB Daten crawlen:
+poetry run python rb_crawler/main.py --id 704024 --state be
+
+RB Daten von SQLite importieren:
+poetry run python .\rb_sqlite_importer\main.py --input ..\corporate-task2.sqlite
+
+RB Kafka Filter & Transformer:
+poetry run python .\rb_announcement_processor\main.py
+
+
 ### FFB Website
 
 
@@ -102,6 +115,25 @@ is the `isin` number. If we consider the `isin` from the example above, the key 
 
 The value of the message contains more information like `volume`, `underlying`, `price` and more. Therefore, the value type
 is complex and needs a schema definition.
+
+
+
+
+FFB Daten crawlen:
+poetry run python ffb_crawler/main.py -r
+
+FFB Kafka Filter & Transformer:
+poetry run python .\ffb_trade_processor\main.py
+
+CSV folder:
+./data/ffb_crwaler
+
+
+
+
+
+flags beschreiben
+
 
 ### Kafka Connect
 
@@ -230,6 +262,14 @@ curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' 
 
 ### ElasticSearch-Dump
 [ElasticSearch-Dump](https://github.com/elasticsearch-dump/elasticsearch-dump) `./dump-elastic-search.sh`
+
+Export/Import full dataset from/to ElasticSearch:
+.\dump-elastic-search.sh
+.\import-elastic-search-dump.sh
+
+## Command Line UI for Dataset Exploration
+
+poetry run python .\elasticsearch_cmd_ui\main.py
 
 
 ## Teardown
