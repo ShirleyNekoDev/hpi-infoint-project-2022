@@ -113,7 +113,7 @@ Here we only use the Sink connector, which consumes data from a Kafka topic into
 Elasticsearch.
 
 We use the [Elasticsearch Sink Connector](https://docs.confluent.io/kafka-connect-elasticsearch/current/overview.html)
-to move the data from the `coporate-events` and `trade-events` topics into the Elasticsearch.
+to move the data from the topics into the Elasticsearch.
 
 ## Setup
 
