@@ -10,6 +10,11 @@
     "schema.ignore": "true",
     "tasks.max": "1",
     "write.method": "UPSERT",
+    "connection.timeout.ms": 10000,
+    "read.timeout.ms": 20000,
+    "flush.timeout.ms": 600000,
+    "batch.size": 500,
+    "max.in.flight.requests": 2,
 
     "transforms": "renameTopics",
     "transforms.renameTopics.type": "org.apache.kafka.connect.transforms.RegexRouter",

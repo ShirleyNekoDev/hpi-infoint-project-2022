@@ -84,7 +84,8 @@ class TradeProcessor:
         
         trade.company_id = company.id
 
-        self.produce(trade, company)
+        if company.name:
+            self.produce(trade, company)
 
     def produce(self, 
         trade: FFBTrade, 
