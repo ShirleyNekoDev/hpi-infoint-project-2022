@@ -167,6 +167,7 @@ services:
       - "http.cors.enabled=true"
       - "http.cors.allow-origin=*"
       - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "path.repo=/usr/share/elasticsearch/data/repos"
     ports:
       - "9200:9200"
       - "9300:9300"

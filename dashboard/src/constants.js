@@ -1,0 +1,1 @@
+export const elasticsearch_url_format_str = "http://localhost:9200/{index}/_search";
